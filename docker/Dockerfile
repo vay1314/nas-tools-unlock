@@ -15,23 +15,8 @@ RUN apk add --no-cache --virtual .build-deps \
     && pip install cython \
     && pip install -r https://raw.githubusercontent.com/vay1314/nas-tools-unlock/master/requirements.txt \
     && apk del --purge .build-deps \
-    && rm -rf /tmp/* /root/.cache /var/cache/apk/* \
-    && set -x && \
-    apk add --no-cache nginx php-fpm php-curl && \
-    rm -f /etc/nginx/http.d/default.conf && \
-    sed -i 's|worker_processes|#&|' /etc/nginx/nginx.conf && \
-    mkdir -p /douban && \
-    mkdir -p /etc/services.d/nginx && \
-    mkdir -p /etc/services.d/php-fpm && \
-    cp /etc/services.d/NAStool/notification-fd /etc/services.d/php-fpm/notification-fd && \
-    cp /etc/services.d/NAStool/notification-fd /etc/services.d/nginx/notification-fd
+    && rm -rf /tmp/* /root/.cache /var/cache/apk/*
 COPY --chmod=755 ./rootfs /
-COPY ./douban/douban.php /douban/
-COPY ./douban/douban.conf /etc/nginx/http.d/
-COPY ./douban/nginx_run /etc/services.d/nginx/run
-COPY ./douban/nginx_finish /etc/services.d/nginx/finish
-COPY ./douban/php_run /etc/services.d/php-fpm/run
-COPY ./douban/php_finish /etc/services.d/php-fpm/finish
 FROM scratch AS APP
 COPY --from=Builder / /
 ENV S6_SERVICES_GRACETIME=30000 \
@@ -67,9 +52,7 @@ RUN mkdir ${HOME} \
     && git config --global pull.ff only \
     && git clone -b master ${REPO_URL} ${WORKDIR} --depth=1 --recurse-submodule \
     && git config --global --add safe.directory ${WORKDIR} \
-    && chmod +x /nas-tools/docker/entrypoint.sh \
-    && chmod +x /etc/services.d/nginx/* && \
-    && chmod +x /etc/services.d/php-fpm/*
+    && chmod +x /nas-tools/docker/entrypoint.sh
 EXPOSE 3000
 VOLUME ["/config"]
 ENTRYPOINT [ "/init" ]

@@ -144,7 +144,7 @@ export class PageDiscovery extends CustomElement {
                   card-tmdbid=${card.id}
                   card-mediatype=${card.type}
                   card-showsub=1
-                  card-image=${"127.0.0.1:7777/douban.php?link=" +card.image}
+                  card-image=${card.image}
                   card-fav=${card.fav}
                   card-vote=${card.vote}
                   card-year=${card.year}
