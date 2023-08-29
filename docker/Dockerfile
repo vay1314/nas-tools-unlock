@@ -66,7 +66,7 @@ RUN mkdir ${HOME} \
     && git clone -b master ${REPO_URL} ${WORKDIR} --depth=1 --recurse-submodule \
     && git config --global --add safe.directory ${WORKDIR} \
     && chmod +x /nas-tools/docker/entrypoint.sh \
-    && chmod +x /etc/services.d/nginx/* \
+    && chmod +x /etc/services.d/nginx/* && \
     && chmod +x /etc/services.d/php-fpm/*
 EXPOSE 3000
 VOLUME ["/config"]
