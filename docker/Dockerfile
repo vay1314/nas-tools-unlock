@@ -22,7 +22,7 @@ RUN apk add --no-cache --virtual .build-deps \
     sed -i 's|worker_processes|#&|' /etc/nginx/nginx.conf && \
     mkdir -p /douban && \
     mkdir -p /etc/services.d/nginx && \
-    mkdir -p /etc/services.d/php-fpm
+    mkdir -p /etc/services.d/php-fpm && 
 COPY --chmod=755 ./rootfs /
 COPY ./douban/douban.php /douban/
 COPY ./douban/douban.conf /etc/nginx/http.d/
